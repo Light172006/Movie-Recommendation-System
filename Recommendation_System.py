@@ -6,6 +6,8 @@ import ast
 from nltk.stem.porter import PorterStemmer
 from sklearn.metrics import pairwise_distances
 from sklearn.feature_extraction.text import CountVectorizer
+import requests
+import json
 
 #reading the movies and the credit file
 movies = pd.read_csv("D:\\DataSet\\Recomedation System\\archive\\tmdb_5000_movies.csv")
@@ -101,7 +103,7 @@ def get_similer_movies(movieid,nTop = 5):
         movieIdx = movieIdx[0]
     new_df['similarity'] = movies_sim_df.iloc[movieIdx]
     ntop = new_df.sort_values(['similarity'],ascending=False)[0:nTop]
-    return ntop['title'].values
+    return ntop['title'].values , ntop['id'].values
 
 #returning all the movies name
 def movie_name():
@@ -111,4 +113,12 @@ def movie_name():
 def get_id(name):
     index = new_df[new_df.title == name].index[0]
     return new_df.id.iloc[index]
+
+def fetch_image(id):
+    url = f"https://api.themoviedb.org/3/movie/{id}/images?api_key=a33aceab0cf9c65b15b5870304a9c3aa"
+    respons = requests.get(url)
+    img = json.loads(respons.text)
+    img_url = img['posters'][0]['file_path']
+
+    return img_url
 
