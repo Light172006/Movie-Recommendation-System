@@ -92,8 +92,8 @@ movies['Tags'] = movies['overview'] + movies['keywords'] + movies['genres'] + mo
 
 #Storing all the neccesory feature into a new dataframe
 new_df = movies[['id','title','Tags']]
-new_df['Tags'] = new_df['Tags'].apply(stem)
-new_df['Tags'] = new_df['Tags'].apply(lambda x: ' '.join(x))
+new_df.loc[:,'Tags'] = new_df['Tags'].apply(stem)
+new_df.loc[:,'Tags'] = new_df['Tags'].apply(lambda x: ' '.join(x))
 
 #Vectorizing the tag
 cv = CountVectorizer(max_features = 5000,stop_words='english',lowercase=True)
