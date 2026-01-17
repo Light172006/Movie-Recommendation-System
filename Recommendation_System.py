@@ -18,7 +18,7 @@ api_key = os.getenv("TMDB_API_KEY")
 #reading the movies and the credit file
 # Get absolute path to the folder where this script is
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-DATA_DIR = os.path.join(BASE_DIR, "data")  # folder name in your repo
+DATA_DIR = os.path.join(BASE_DIR, "Data")  # folder name in your repo
 
 # Use os.path.join for cross-platform compatibility
 movies = pd.read_csv(os.path.join(DATA_DIR, "tmdb_5000_movies.csv"))
