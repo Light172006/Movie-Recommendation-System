@@ -2,7 +2,7 @@ import streamlit as st
 import Recommendation_System as rs
 from PIL import Image
 
-st.write('# Recomendation System')
+st.write('# Recommendation System')
 
 if 'movie_name' not in st.session_state:
     st.session_state.movie_name = ''

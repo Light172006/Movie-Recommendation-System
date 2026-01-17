@@ -8,6 +8,12 @@ from sklearn.metrics import pairwise_distances
 from sklearn.feature_extraction.text import CountVectorizer
 import requests
 import json
+import os
+from dotenv import load_dotenv
+
+# getting the imbd API key
+load_dotenv()
+api_key = os.getenv("TMDB_API_KEY")
 
 #reading the movies and the credit file
 movies = pd.read_csv("D:\\DataSet\\Recomedation System\\archive\\tmdb_5000_movies.csv")
@@ -115,7 +121,7 @@ def get_id(name):
     return new_df.id.iloc[index]
 
 def fetch_image(id):
-    url = f"https://api.themoviedb.org/3/movie/{id}/images?api_key=a33aceab0cf9c65b15b5870304a9c3aa"
+    url = f"https://api.themoviedb.org/3/movie/{id}/images?api_key={api_key}"
     respons = requests.get(url)
     img = json.loads(respons.text)
     img_url = img['posters'][0]['file_path']
