@@ -16,7 +16,7 @@ load_dotenv()
 api_key = os.getenv("TMDB_API_KEY")
 
 #reading the movies and the credit file
-movies = pd.read_csv("D:\ML Projects\Movie-Recommendation-System\Data\tmdb_5000_movies.csv")
+movies = pd.read_csv("D:\\ML Projects\\Movie-Recommendation-System\\Data\\tmdb_5000_movies.csv")
 credit = pd.read_csv("D:\ML Projects\\Movie-Recommendation-System\\Data\\tmdb_5000_credits.csv")
 
 #removing all the unnecesory features form the dataframe
