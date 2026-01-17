@@ -2,6 +2,7 @@
 
 import pandas as pd
 import numpy as np 
+import streamlit as st
 import ast
 from nltk.stem.porter import PorterStemmer
 from sklearn.metrics import pairwise_distances
@@ -13,7 +14,11 @@ from dotenv import load_dotenv
 
 # getting the imbd API key
 load_dotenv()
-api_key = os.getenv("TMDB_API_KEY")
+
+try:
+    api_key = st.secrets('TMDB_API_KEY')
+except TypeError:
+    api_key = os.getenv("TMDB_API_KEY")
 
 #reading the movies and the credit file
 # Get absolute path to the folder where this script is
