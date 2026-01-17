@@ -16,8 +16,13 @@ load_dotenv()
 api_key = os.getenv("TMDB_API_KEY")
 
 #reading the movies and the credit file
-movies = pd.read_csv("Data\\tmdb_5000_movies.csv")
-credit = pd.read_csv("Data\\tmdb_5000_credits.csv")
+# Get absolute path to the folder where this script is
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DATA_DIR = os.path.join(BASE_DIR, "data")  # folder name in your repo
+
+# Use os.path.join for cross-platform compatibility
+movies = pd.read_csv(os.path.join(DATA_DIR, "tmdb_5000_movies.csv"))
+credit = pd.read_csv(os.path.join(DATA_DIR, "tmdb_5000_credits.csv"))
 
 #removing all the unnecesory features form the dataframe
 movies = movies[['genres','id','keywords','overview','title']]
