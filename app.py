@@ -2,6 +2,8 @@ import streamlit as st
 import Recommendation_System as rs
 from PIL import Image
 
+st.set_page_config(page_title = 'Recommendation System' , page_icon='🎬')
+
 st.write('# Recommendation System')
 
 if 'movie_name' not in st.session_state:
