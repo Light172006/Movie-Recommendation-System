@@ -1,7 +1,17 @@
 import streamlit as st
 import Recommendation_System as rs
+import time
 
 st.set_page_config(page_title = 'Recommendation System' , page_icon='🎬')
+
+@st.cache_data(show_spinner=False)
+def get_poster(movieId):
+    url = rs.fetch_image(movieId)
+    # Do not cache placeholders
+    if "via.placeholder.com" in url:
+        st.write('FAILED')
+        return None
+    return url
 
 st.write('# Recommendation System')
 
@@ -32,9 +42,12 @@ if st.button(label='Recommend'):
     col = [col1,col2,col3,col4,col5]
     for i in range(5):
         with col[i]:
-            url = rs.fetch_image(st.session_state.movie_sim_id[i])
-            st.image(f'https://image.tmdb.org/t/p/w500/{url}')
+            url = get_poster(st.session_state.movie_sim_id[i])
+            if url is None:
+                url = "https://via.placeholder.com/300x450?text=No+Image"
+            st.image(url)
             st.write(st.session_state.movie_sim[i])
+            time.sleep(.2)
 
 
 

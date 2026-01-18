@@ -11,14 +11,27 @@ import requests
 import json
 import os
 from dotenv import load_dotenv
+from requests.adapters import HTTPAdapter
+from urllib3.util.retry import Retry
+
+session = requests.Session()
+
+retry = Retry(
+    total=5,
+    backoff_factor=1,
+    status_forcelist=[429, 500, 502, 503, 504],
+)
+
+adapter = HTTPAdapter(max_retries=retry)
+
+session.mount("http://", adapter)
+session.mount("https://", adapter)
 
 # getting the imbd API key
 load_dotenv()
 
-try:
-    api_key = st.secrets('TMDB_API_KEY')
-except TypeError:
-    api_key = os.getenv("TMDB_API_KEY")
+
+api_key = os.getenv("TMDB_API_KEY")
 
 #reading the movies and the credit file
 # Get absolute path to the folder where this script is
@@ -131,10 +144,27 @@ def get_id(name):
     return new_df.id.iloc[index]
 
 def fetch_image(id):
-    url = f"https://api.themoviedb.org/3/movie/{id}/images?api_key={api_key}"
-    respons = requests.get(url)
-    img = json.loads(respons.text)
-    img_url = img['posters'][0]['file_path']
 
-    return img_url
+    try:
+        url = f"https://api.themoviedb.org/3/movie/{id}/images?api_key={api_key}"
+        header = {'User-Agent':'Mozilla-5'}
+        respons = session.get(url,headers=header,timeout=10)
+        if respons.status_code != 200:
+            return "https://via.placeholder.com/300x450?text=No+Image"
+        
+        img = respons.json()
+        poster_path = img['posters'][0]['file_path']
+
+        if poster_path is None:
+            return "https://via.placeholder.com/300x450?text=No+Image"
+
+        return f"https://image.tmdb.org/t/p/w500{poster_path}"
+    
+    except requests.exceptions.RequestException as e:
+        print("Image fetch failed:", e)
+        return "https://via.placeholder.com/300x450?text=Error"
+        
+        
+
+    
 
