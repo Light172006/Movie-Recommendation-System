@@ -1,14 +1,11 @@
 #import all the neccesory packages
 
 import pandas as pd
-import numpy as np 
-import streamlit as st
 import ast
 from nltk.stem.porter import PorterStemmer
 from sklearn.metrics import pairwise_distances
 from sklearn.feature_extraction.text import CountVectorizer
 import requests
-import json
 import os
 from dotenv import load_dotenv
 from requests.adapters import HTTPAdapter
